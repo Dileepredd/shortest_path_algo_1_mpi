@@ -103,11 +103,15 @@ int main(int argc,char** argv)
     input : matrix a.
     output : shortest path between source and destination initial check.
     */
+    double starttime,endtime;
+    int start = rank*(nodes/procs);
+    int end = start + nodes/procs;
+    starttime = MPI_Wtime();
     if((*a)[source][destination] > 0)
     {
         if(rank == 0)
         cout<<"shortest path length from source "<<source<<" to destination "<<destination<<" is: "<<"1"<<endl;
-        return 0;
+        goto END;
     }
     /*
     component 4:
@@ -116,8 +120,6 @@ int main(int argc,char** argv)
     end: row untill where the process multiplies(excluding).
     output: shortest path length.
     */
-    int start = rank*(nodes/procs);
-    int end = start + nodes/procs;
     // from SP(2) to SP(nodes-1).
     // a = SP(1); b = SP(i-1); c = SP(i);
     // SP(i) = SP(i-1)*SP(1);
@@ -155,7 +157,7 @@ int main(int argc,char** argv)
             if((*c)[source][destination] > 0)
             {
                 cout<<"shortest path length from source "<<source<<" to destination "<<destination<<" is: "<<i<<endl;
-                return 0;
+                goto END;
             }
         }
         
@@ -166,6 +168,12 @@ int main(int argc,char** argv)
     if(rank == 0)
     {
         cout<<"shortest path length from source "<<source<<" to destination "<<destination<<" is: "<<"infinite"<<endl;
+    }
+    END:
+    endtime = MPI_Wtime();
+    if(rank == 0)
+    {
+        cout<<"time taken is: "<<(endtime-starttime)<<endl;
     }
     MPI_Finalize();
     return 0;
