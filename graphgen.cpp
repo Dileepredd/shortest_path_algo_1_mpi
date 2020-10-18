@@ -43,6 +43,7 @@ int main(int argc,char** argv)
     fwrite(a,nodes*nodes,sizeof(int),fp);
     fclose(fp);
     cout<<"graph is dumpped into the binary file: dump"<<endl;
+    /*
     fp = fopen("dump","rb");
     int n;
     fread(&n,1,sizeof(int),fp);
@@ -59,5 +60,6 @@ int main(int argc,char** argv)
         cout<<endl;
     }
     cout<<endl;
+    */
     return 0;
 }
