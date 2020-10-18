@@ -1,0 +1,49 @@
+let p = number of process.
+let n = number of nodes.
+let rank = rank of the process.
+/*
+actual matrices A,B,C are of size nXn.
+actual implementation of A can be done using file ops like fopen,fread,fseek.
+*/
+let nofr = (n/p).//number of rows.
+let a[nofr][n],b[nofr][n],c[nofr][n];
+let temprank = rank;
+a = &A[temprank*nofr][0];
+b[...][...] = a[...][...];
+c[...][...] = 0;
+
+initial check for source and destination:
+if found return 1;
+
+for int i = 2 to nodes-1:
+  c = matmul b,a;
+  check c for sorce and destination.
+  if found return i;
+  swap refference to c and b matrices.
+
+if not found:
+return inf;
+
+matmul:
+let procs = p // number of process
+let nodes = n //number of nodes.
+
+for(int j=0;j<procs;j++)
+{
+   for(int r=0;r<(nodes/procs);r++)
+   {
+      for(int k=0;k<nodes;k++)
+      {
+          for(int l=0;l<(nodes/procs);l++)
+          {
+              c[r][k] += b[r][j*(nodes/proc)+l]*a[l][k];
+          }
+      }
+   }
+   update a;
+}
+
+update:
+let procs = p;//number of process.
+temprank = (temprank+1)%procs;
+a = &A[temprank*(nodes/procs)][0];// can be implemented using file seek operation.
